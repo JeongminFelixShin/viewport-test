@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta id="viewport" name="viewport" content="width=768">
+  <title>Viewport Test</title>
+  <style>
+    body {
+      font-size: 0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .title {
+      margin-top: 24px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .value {
+      font-size: 48px;
+    }
+
+    .button-wrap {
+      margin-top: 48px;
+    }
+
+    .button {
+      font-size: 24px;
+      font-weight: bold;
+      background: grey;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+<div class="title">Content Width</div>
+<div class="value">768</div>
+<div class="title">InnerWidth X InnerHeight</div>
+<div class="value"></div>
+<div class="title">OuterWidth X OuterHeight</div>
+<div class="value"></div>
+<div class="title">ScreenWidth X ScreenHeight</div>
+<div class="value"></div>
+<div class="title">ScreenAvailWidth X ScreenAvailHeight</div>
+<div class="value"></div>
+<div class="title">DevicePixelRatio</div>
+<div class="value"></div>
+<div class="button-wrap">
+  <button class="button">Toggle</button>
+</div>
+</body>
+<script>
+  // var el = document.querySelector('div');
+  // el.textContent = el.offsetWidth;
+  //
+  // setTimeout(function () {
+  //   document.querySelector('#viewport').setAttribute('content', 'width=1200');
+  //   el.textContent = el.offsetWidth;
+  // }, 1000);
+  //
+  // window.onresize = function (e) {
+  //   console.log(e);
+  // };
+
+  var isFixedContentWidth = true;
+
+  function getDeviceValue() {
+    if (isFixedContentWidth) {
+      document.querySelectorAll('.value')[0].textContent = '768';
+    } else {
+      document.querySelectorAll('.value')[0].textContent = 'Device Width';
+    }
+
+    document.querySelectorAll('.value')[1].textContent = window.innerWidth + ' X ' + window.innerHeight;
+    document.querySelectorAll('.value')[2].textContent = window.outerWidth + ' X ' + window.outerHeight;
+    document.querySelectorAll('.value')[3].textContent = window.screen.width + ' X ' + window.screen.height;
+    document.querySelectorAll('.value')[4].textContent = window.screen.availWidth + ' X ' + window.screen.availHeight;
+    document.querySelectorAll('.value')[5].textContent = window.devicePixelRatio.toString();
+  }
+
+  document.querySelector('.button').addEventListener('click', function() {
+    if (isFixedContentWidth) {
+      document.querySelector('#viewport').setAttribute('content', 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0');
+    } else {
+      document.querySelector('#viewport').setAttribute('content', 'width=768');
+    }
+
+    isFixedContentWidth = !isFixedContentWidth;
+
+    getDeviceValue();
+  });
+
+  window.addEventListener('resize', function() {
+    getDeviceValue();
+  });
+
+  getDeviceValue();
+</script>
+</html>
