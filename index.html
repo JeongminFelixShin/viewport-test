@@ -12,6 +12,14 @@
   var contentFixedWidth = 'width=768,maximum-scale=1.0';
   var contentDeviceWidth = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0';
 
+  var resizeOrientationChange = function() {
+    var el = document.querySelector('.contents');
+    el.innerHTML += 'resize on orientation change<br>'
+    el.innerHTML += 'innerWidth: ' + window.innerWidth + '<br>';
+    el.innerHTML += 'outerWidth: ' + window.outerWidth + '<br><br>';
+    window.removeEventListener('resize', resizeOrientationChange);
+  };
+
   window.addEventListener('resize', function() {
     var el = document.querySelector('.contents');
     var inner = el.innerHTML;
@@ -20,22 +28,32 @@
     inner += 'outerWidth: ' + window.outerWidth + '<br>';
     el.innerHTML = inner;
 
-    var meta = document.querySelector('meta[name="viewport"]');
-    var content = meta.getAttribute('content');
+    var timeout = 0;
 
-    if (window.outerWidth < 768 && window.outerWidth > 534) {
-      if (content !== contentFixedWidth) {
-        meta.setAttribute('content', contentFixedWidth);
-        console.log(content);
-        console.log(contentFixedWidth);
-        el.innerHTML += 'current meta: fixed<br>';
+    var checkOuterWidth = function() {
+      if (timeout < 100) {
+        el.innerHTML += 'reqAnimFrame outerWidth: ' + window.outerWidth + '<br>';
+        timeout++;
+        requestAnimationFrame(checkOuterWidth);
       }
-    } else {
-      if (content !== contentDeviceWidth) {
-        meta.setAttribute('content', contentDeviceWidth);
-        el.innerHTML += 'current meta: device width<br>';
-      }
-    }
+    };
+
+    requestAnimationFrame(checkOuterWidth);
+
+    // var meta = document.querySelector('meta[name="viewport"]');
+    // var content = meta.getAttribute('content');
+    //
+    // if (window.outerWidth < 768 && window.outerWidth > 534) {
+    //   if (content !== contentFixedWidth) {
+    //     meta.setAttribute('content', contentFixedWidth);
+    //     el.innerHTML += 'current meta: fixed<br>';
+    //   }
+    // } else {
+    //   if (content !== contentDeviceWidth) {
+    //     meta.setAttribute('content', contentDeviceWidth);
+    //     el.innerHTML += 'current meta: device width<br>';
+    //   }
+    // }
     el.innerHTML += '<br>';
   });
 
@@ -47,26 +65,28 @@
     inner += 'innerWidth: ' + window.innerWidth + '<br>';
     inner += 'outerWidth: ' + window.outerWidth + '<br><br>';
     el.innerHTML = inner;
+
+    window.addEventListener('resize', resizeOrientationChange);
   });
 
-  window.onload = function() {
-    var el = document.querySelector('.contents');
-    var meta = document.querySelector('meta[name="viewport"]');
-    var content = meta.getAttribute('content');
-
-    if (window.outerWidth < 768 && window.outerWidth > 534) {
-      if (content !== contentFixedWidth) {
-        meta.setAttribute('content', contentFixedWidth);
-        el.innerHTML += 'current meta: fixed<br>';
-      }
-
-    } else {
-      if (content !== contentDeviceWidth) {
-        meta.setAttribute('content', contentDeviceWidth);
-        el.innerHTML += 'current meta: device width<br>';
-      }
-    }
-  }
+  // window.onload = function() {
+  //   var el = document.querySelector('.contents');
+  //   var meta = document.querySelector('meta[name="viewport"]');
+  //   var content = meta.getAttribute('content');
+  //
+  //   if (window.outerWidth < 768 && window.outerWidth > 534) {
+  //     if (content !== contentFixedWidth) {
+  //       meta.setAttribute('content', contentFixedWidth);
+  //       el.innerHTML += 'current meta: fixed<br>';
+  //     }
+  //
+  //   } else {
+  //     if (content !== contentDeviceWidth) {
+  //       meta.setAttribute('content', contentDeviceWidth);
+  //       el.innerHTML += 'current meta: device width<br>';
+  //     }
+  //   }
+  // }
 </script>
 </body>
 </html>
