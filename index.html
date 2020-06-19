@@ -17,7 +17,7 @@
     var inner = el.innerHTML;
     inner += 'resize<br>';
     inner += 'innerWidth: ' + window.innerWidth + '<br>';
-    inner += 'innerHeight: ' + window.innerHeight + '<br>';
+    inner += 'outerWidth: ' + window.outerWidth + '<br>';
     el.innerHTML = inner;
 
     var meta = document.querySelector('meta[name="viewport"]');
@@ -45,7 +45,7 @@
     var inner = el.innerHTML;
     inner += 'orientationchange<br>';
     inner += 'innerWidth: ' + window.innerWidth + '<br>';
-    inner += 'innerHeight: ' + window.innerHeight + '<br><br>';
+    inner += 'outerWidth: ' + window.outerWidth + '<br><br>';
     el.innerHTML = inner;
   });
 
