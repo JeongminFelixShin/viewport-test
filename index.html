@@ -5,66 +5,138 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+  <style>
+    .modal {
+      top: 0;
+      left: 0;
+      position: fixed;
+      display: none;
+      width: 512px;
+      height: 512px;
+      background-color: red;
+    }
+
+    .modal.active {
+      display: block;
+    }
+  </style>
 </head>
 <body>
-<div class="contents"></div>
+<div class="contents">
+  Content Content Content Content Content Content Content Content Content Content Content Content Content Content<br>
+  Content Content Content Content Content Content Content Content Content Content Content Content Content Content<br>
+  Content Content Content Content Content Content Content Content Content Content Content Content Content Content<br>
+  Content Content Content Content Content Content Content Content Content Content Content Content Content Content<br>
+  Content Content Content Content Content Content Content Content Content Content Content Content Content Content<br>
+  Content Content Content Content Content Content Content Content Content Content Content Content Content Content<br>
+  Content Content Content Content Content Content Content Content Content Content Content Content Content Content<br>
+  Content Content Content Content Content Content Content Content Content Content Content Content Content Content<br>
+  Content Content Content Content Content Content Content Content Content Content Content Content Content Content<br>
+  Content Content Content Content Content Content Content Content Content Content Content Content Content Content
+</div>
+
+<div>
+  <button class="open">button 1</button>
+</div>
+
+<div>
+  <button>button 2</button>
+</div>
+
+<div>
+  <button>button 3</button>
+</div>
+
+<div>
+  <button>button 4</button>
+</div>
+
+<div>
+  <button>button 5</button>
+</div>
+
+<div>
+  <button>button 6</button>
+</div>
+
+<div>
+  <button>button 7</button>
+</div>
+
+<div>
+  <button>button 8</button>
+</div>
+
+<div>
+  <button>button 9</button>
+</div>
+
+<div>
+  <button>button 10</button>
+</div>
+
+<div class="modal">
+  <div>
+    Modal
+    <button class="close">close</button>
+    <div>
+      <button>button 1</button>
+    </div>
+    <div>
+      <button>button 2</button>
+    </div>
+    <div>
+      <button>button 3</button>
+    </div>
+    <div>
+      <button>button 4</button>
+    </div>
+    <div>
+      <button>button 5</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  var contentFixedWidth = 'width=768,maximum-scale=1.0';
-  var contentDeviceWidth = 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0';
-
-  window.addEventListener('resize', function() {
-    var el = document.querySelector('.contents');
-    var inner = el.innerHTML;
-    inner += 'resize<br>';
-    inner += 'innerWidth: ' + window.innerWidth + '<br>';
-    inner += 'innerHeight: ' + window.innerHeight + '<br>';
-    el.innerHTML = inner;
-
-    var meta = document.querySelector('meta[name="viewport"]');
-    var content = meta.getAttribute('content');
-
-    if (window.outerWidth < 768 && window.outerWidth > 534) {
-      if (content !== contentFixedWidth) {
-        meta.setAttribute('content', contentFixedWidth);
-        console.log(content);
-        console.log(contentFixedWidth);
-        el.innerHTML += 'current meta: fixed<br>';
-      }
-    } else {
-      if (content !== contentDeviceWidth) {
-        meta.setAttribute('content', contentDeviceWidth);
-        el.innerHTML += 'current meta: device width<br>';
-      }
-    }
-    el.innerHTML += '<br>';
+  document.querySelector('.open').addEventListener('click', () => {
+    const modal = document.querySelector('.modal');
+    modal.classList.add('active');
+    setMobileFocusLoop(modal)
+  });
+  document.querySelector('.close').addEventListener('click', () => {
+    const modal = document.querySelector('.modal');
+    modal.classList.remove('active');
+    removeMobileFocusLoop();
   });
 
-  window.addEventListener('orientationchange', function() {
-    var el = document.querySelector('.contents');
-    el.innerHTML = '';
-    var inner = el.innerHTML;
-    inner += 'orientationchange<br>';
-    inner += 'innerWidth: ' + window.innerWidth + '<br>';
-    inner += 'innerHeight: ' + window.innerHeight + '<br><br>';
-    el.innerHTML = inner;
-  });
+  function setMobileFocusLoop(el) {
+    do {
+      const siblingEls = el.parentNode.children;
 
-  window.onload = function() {
-    var el = document.querySelector('.contents');
-    var meta = document.querySelector('meta[name="viewport"]');
-    var content = meta.getAttribute('content');
-
-    if (window.outerWidth < 768 && window.outerWidth > 534) {
-      if (content !== contentFixedWidth) {
-        meta.setAttribute('content', contentFixedWidth);
-        el.innerHTML += 'current meta: fixed<br>';
+      for (let i = 0; i < siblingEls.length; i++) {
+        if (siblingEls[i] !== el) {
+          siblingEls[i].setAttribute('data-aria-hidden', siblingEls[i].getAttribute('aria-hidden') || 'null');
+          siblingEls[i].setAttribute('aria-hidden', 'true');
+        }
       }
 
-    } else {
-      if (content !== contentDeviceWidth) {
-        meta.setAttribute('content', contentDeviceWidth);
-        el.innerHTML += 'current meta: device width<br>';
+      el = el.parentElement;
+    } while (el !== document.body);
+  }
+
+  function removeMobileFocusLoop() {
+    const els = document.querySelectorAll('[data-aria-hidden]');
+
+    for (let i = 0; i < els.length; i++) {
+      const originAriaHidden = els[i].getAttribute('data-aria-hidden');
+
+      if (originAriaHidden === 'null') {
+        els[i].removeAttribute('aria-hidden');
+      } else {
+        els[i].setAttribute('aria-hidden', originAriaHidden);
       }
+
+      els[i].removeAttribute('data-aria-hidden');
     }
   }
 </script>
