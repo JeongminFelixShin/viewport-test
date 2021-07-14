@@ -1,29 +1,65 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><style>body{font-size:0;margin:0;padding:0;text-align:center}.m_title{margin-top:24px;font-size:24px;font-weight:bold}.m_value{font-size:48px}.m_button-wrap{margin-top:48px}.m_button{font-size:24px;font-weight:bold;background:grey;color:white}.m_input{margin-top:24px;font-size:14px}</style></head><body><u></u>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta id="viewport" name="viewport" content="width=768">
+  <title>Viewport Test</title>
+  <style>
+    body {
+      font-size: 0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
 
-<div>
-<div class="m_title">Content Width</div>
-<div class="m_value">768</div>
-<div class="m_title">InnerWidth X InnerHeight</div>
-<div class="m_value"></div>
-<div class="m_title">OuterWidth X OuterHeight</div>
-<div class="m_value"></div>
-<div class="m_title">ScreenWidth X ScreenHeight</div>
-<div class="m_value"></div>
-<div class="m_title">ScreenAvailWidth X ScreenAvailHeight</div>
-<div class="m_value"></div>
-<div class="m_title">DevicePixelRatio</div>
-<div class="m_value"></div>
-<div class="m_input-wrap">
-  <input class="m_input" type="text">
-</div>
-<div class="m_button-wrap">
-  <button class="m_button">Toggle</button>
-</div>
-</div>
+    .title {
+      margin-top: 24px;
+      font-size: 24px;
+      font-weight: bold;
+    }
 
+    .value {
+      font-size: 48px;
+    }
 
+    .button-wrap {
+      margin-top: 48px;
+    }
+
+    .button {
+      font-size: 24px;
+      font-weight: bold;
+      background: grey;
+      color: white;
+    }
+
+    .input {
+      margin-top: 24px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="title">Content Width</div>
+<div class="value">768</div>
+<div class="title">InnerWidth X InnerHeight</div>
+<div class="value"></div>
+<div class="title">OuterWidth X OuterHeight</div>
+<div class="value"></div>
+<div class="title">ScreenWidth X ScreenHeight</div>
+<div class="value"></div>
+<div class="title">ScreenAvailWidth X ScreenAvailHeight</div>
+<div class="value"></div>
+<div class="title">DevicePixelRatio</div>
+<div class="value"></div>
+<div class="input-wrap">
+  <input class="input" type="text">
+</div>
+<div class="button-wrap">
+  <button class="button">Toggle</button>
+</div>
 </body>
-
 <script>
   // var el = document.querySelector('div');
   // el.textContent = el.offsetWidth;
@@ -71,5 +107,4 @@
 
   getDeviceValue();
 </script>
-
 </html>
