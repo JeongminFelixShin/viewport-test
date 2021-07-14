@@ -22,4 +22,54 @@
 </div>
 
 
-</body></html>
+</body>
+
+<script>
+  // var el = document.querySelector('div');
+  // el.textContent = el.offsetWidth;
+  //
+  // setTimeout(function () {
+  //   document.querySelector('#viewport').setAttribute('content', 'width=1200');
+  //   el.textContent = el.offsetWidth;
+  // }, 1000);
+  //
+  // window.onresize = function (e) {
+  //   console.log(e);
+  // };
+
+  var isFixedContentWidth = true;
+
+  function getDeviceValue() {
+    if (isFixedContentWidth) {
+      document.querySelectorAll('.value')[0].textContent = '768';
+    } else {
+      document.querySelectorAll('.value')[0].textContent = 'Device Width';
+    }
+
+    document.querySelectorAll('.value')[1].textContent = window.innerWidth + ' X ' + window.innerHeight;
+    document.querySelectorAll('.value')[2].textContent = window.outerWidth + ' X ' + window.outerHeight;
+    document.querySelectorAll('.value')[3].textContent = window.screen.width + ' X ' + window.screen.height;
+    document.querySelectorAll('.value')[4].textContent = window.screen.availWidth + ' X ' + window.screen.availHeight;
+    document.querySelectorAll('.value')[5].textContent = window.devicePixelRatio.toString();
+  }
+
+  document.querySelector('.button').addEventListener('click', function() {
+    if (isFixedContentWidth) {
+      document.querySelector('#viewport').setAttribute('content', 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0');
+    } else {
+      document.querySelector('#viewport').setAttribute('content', 'width=768');
+    }
+
+    isFixedContentWidth = !isFixedContentWidth;
+
+    getDeviceValue();
+  });
+
+  window.addEventListener('resize', function() {
+    getDeviceValue();
+  });
+
+  getDeviceValue();
+</script>
+
+</html>
