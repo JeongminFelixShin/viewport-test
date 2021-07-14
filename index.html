@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta id="viewport" name="viewport" content="width=768">
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Viewport Test</title>
   <style>
     body {
@@ -89,7 +89,7 @@
     document.querySelectorAll('.value')[5].textContent = window.devicePixelRatio.toString();
   }
 
-  document.querySelector('.button').addEventListener('click', function() {
+  /*document.querySelector('.button').addEventListener('click', function() {
     if (isFixedContentWidth) {
       document.querySelector('#viewport').setAttribute('content', 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0');
     } else {
@@ -99,7 +99,7 @@
     isFixedContentWidth = !isFixedContentWidth;
 
     getDeviceValue();
-  });
+  });*/
 
   window.addEventListener('resize', function() {
     getDeviceValue();
