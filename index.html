@@ -73,7 +73,7 @@
   //   console.log(e);
   // };
 
-  var isFixedContentWidth = false;
+  var isFixedContentWidth = true;
 
   function getDeviceValue() {
     if (isFixedContentWidth) {
@@ -89,7 +89,7 @@
     document.querySelectorAll('.value')[5].textContent = window.devicePixelRatio.toString();
   }
 
-  /*document.querySelector('.button').addEventListener('click', function() {
+  document.querySelector('.button').addEventListener('click', function() {
     if (isFixedContentWidth) {
       document.querySelector('#viewport').setAttribute('content', 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0');
     } else {
@@ -99,7 +99,7 @@
     isFixedContentWidth = !isFixedContentWidth;
 
     getDeviceValue();
-  });*/
+  });
 
   window.addEventListener('resize', function() {
     getDeviceValue();
