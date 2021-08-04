@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta id="viewport" name="viewport" content="width=768">
   <title>Viewport Test</title>
   <style>
     body {
@@ -53,35 +53,70 @@
 <div class="value"></div>
 <div class="title">DevicePixelRatio</div>
 <div class="value"></div>
-<div class="input-wrap">
-  <input class="input" type="text">
-</div>
-<div class="button-wrap">
-  <button class="button">Toggle</button>
-</div>
 </body>
 <script>
-  // var el = document.querySelector('div');
-  // el.textContent = el.offsetWidth;
-  //
-  // setTimeout(function () {
-  //   document.querySelector('#viewport').setAttribute('content', 'width=1200');
-  //   el.textContent = el.offsetWidth;
-  // }, 1000);
-  //
-  // window.onresize = function (e) {
-  //   console.log(e);
-  // };
-
-  var isFixedContentWidth = true;
-
-  function getDeviceValue() {
-    if (isFixedContentWidth) {
+  function setIsFixed(isFixed) {
+    if (isFixed) {
       document.querySelectorAll('.value')[0].textContent = '768';
     } else {
       document.querySelectorAll('.value')[0].textContent = 'Device Width';
     }
+  }
 
+  var contentFixedWidth = 'width=768';
+  var contentDeviceWidth = 'width=device-width,initial-scale=1.0,minimum-scale=1.0';
+  var timeout = 0;
+
+  function checkResize(isFixed) {
+    if (isFixed) {
+      if (timeout > 60 || window.innerWidth === 768) {
+        setIsFixed(isFixed)
+      } else {
+        timeout++;
+        requestAnimationFrame(() => checkResize(isFixed));
+      }
+    } else {
+      if (timeout > 60 || window.innerWidth !== 768) {
+        setIsFixed(isFixed)
+      } else {
+        timeout++;
+        requestAnimationFrame(() => checkResize(isFixed));
+      }
+    }
+  }
+
+  function setResponsive() {
+    var el = document.querySelector('meta[name="viewport"]');
+    var content = el.getAttribute('content');
+
+    if ((window.outerWidth < 768 && window.outerWidth > 534) ||
+      (window.innerWidth > window.innerHeight && window.outerWidth > window.innerWidth &&
+        (window.innerWidth < 768 && window.innerWidth > 534))) {
+      if (content !== contentFixedWidth) {
+        el.setAttribute('content', contentFixedWidth);
+        timeout = 0;
+        requestAnimationFrame(() => checkResize(true));
+      }
+    } else {
+      if (content !== contentDeviceWidth) {
+        el.setAttribute('content', contentDeviceWidth);
+        timeout = 0;
+        requestAnimationFrame(() => checkResize(false));
+      }
+    }
+  }
+
+  function checkOuterWidth(width) {
+    if (window.outerWidth !== width || timeout >= 120) {
+      setResponsive();
+    } else {
+      timeout++;
+      width = window.outerWidth;
+      requestAnimationFrame(() => checkOuterWidth(width));
+    }
+  }
+
+  function setValue() {
     document.querySelectorAll('.value')[1].textContent = window.innerWidth + ' X ' + window.innerHeight;
     document.querySelectorAll('.value')[2].textContent = window.outerWidth + ' X ' + window.outerHeight;
     document.querySelectorAll('.value')[3].textContent = window.screen.width + ' X ' + window.screen.height;
@@ -89,22 +124,24 @@
     document.querySelectorAll('.value')[5].textContent = window.devicePixelRatio.toString();
   }
 
-  document.querySelector('.button').addEventListener('click', function() {
-    if (isFixedContentWidth) {
-      document.querySelector('#viewport').setAttribute('content', 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0');
-    } else {
-      document.querySelector('#viewport').setAttribute('content', 'width=768');
-    }
-
-    isFixedContentWidth = !isFixedContentWidth;
-
-    getDeviceValue();
-  });
-
   window.addEventListener('resize', function() {
-    getDeviceValue();
+    setResponsive();
+    setValue();
   });
 
-  getDeviceValue();
+  window.addEventListener('orientationchange', function() {
+    timeout = 0;
+    checkOuterWidth(window.outerWidth);
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setResponsive();
+      setValue();
+    });
+  } else {
+    setResponsive();
+    setValue();
+  }
 </script>
 </html>
