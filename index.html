@@ -22,22 +22,6 @@
     .value {
       font-size: 48px;
     }
-
-    .button-wrap {
-      margin-top: 48px;
-    }
-
-    .button {
-      font-size: 24px;
-      font-weight: bold;
-      background: grey;
-      color: white;
-    }
-
-    .input {
-      margin-top: 24px;
-      font-size: 14px;
-    }
   </style>
 </head>
 <body>
@@ -61,6 +45,8 @@
     } else {
       document.querySelectorAll('.value')[0].textContent = 'Device Width';
     }
+
+    setValue();
   }
 
   var contentFixedWidth = 'width=768';
@@ -90,14 +76,21 @@
     var content = el.getAttribute('content');
 
     if ((window.outerWidth < 768 && window.outerWidth > 534) ||
-      (window.innerWidth > window.innerHeight && window.outerWidth > window.innerWidth &&
-        (window.innerWidth < 768 && window.innerWidth > 534))) {
+      (
+        window.innerWidth > window.innerHeight &&
+        window.outerWidth > window.innerWidth &&
+        (window.innerWidth < 768 && window.innerWidth > 534)
+      )) {
       if (content !== contentFixedWidth) {
         el.setAttribute('content', contentFixedWidth);
         timeout = 0;
         requestAnimationFrame(() => checkResize(true));
       }
-    } else {
+    } else if (
+      !(window.innerWidth > window.innerHeight &&
+      content === contentFixedWidth &&
+      window.outerWidth > window.innerWidth)
+    ){
       if (content !== contentDeviceWidth) {
         el.setAttribute('content', contentDeviceWidth);
         timeout = 0;
