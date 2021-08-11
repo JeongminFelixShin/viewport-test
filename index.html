@@ -25,7 +25,7 @@
   </style>
 </head>
 <body>
-  <div>0811-v1</div>
+  <div>20210811-v1</div>
 <div class="title">Content Width</div>
 <div class="value">768</div>
 <div class="title">InnerWidth X InnerHeight</div>
@@ -78,9 +78,9 @@
 
     if ((window.outerWidth < 768 && window.outerWidth > 534) ||
       (
-        window.innerWidth > window.innerHeight &&
+        window.outerWidth > window.outerHeight &&
         window.outerWidth > window.innerWidth &&
-        (window.innerWidth < 768 && window.innerWidth > 534)
+        (window.outerWidth >= 768 && window.innerWidth < 768)
       )) {
       if (content !== contentFixedWidth) {
         el.setAttribute('content', contentFixedWidth);
